@@ -6,9 +6,9 @@
 
 3. With Arduino still plugged in to the same port, run the program with:
 
-    ```./a.out {name_of_usb_port} > output```
+    ```./a.out {name_of_usb_port} {output_filename}```
 
-File `output` will contain as accurate as possible timestamp measurements based on NTP with nanosecond resolution. The format of `output` is:
+File `{output_filename}` will contain as accurate as possible timestamp measurements based on NTP with nanosecond resolution. The format of `{output_filename}` is:
 
 ```{unix_timestamp_seconds} {nanoseconds}```
 

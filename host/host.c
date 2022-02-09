@@ -247,11 +247,13 @@ struct timespec get_true_time(int sockfd) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        printf("This program takes exactly one argument: the serial port to "
-               "listen to.");
+    if (argc != 3) {
+        printf("This program takes exactly two argument: the serial port to "
+               "listen to and the output filename.");
         return 1;
     }
+
+    FILE* output = fopen(argv[2], "w");
 
     // Connect to the socket for NTP requests
     int sockfd = ntp_socket();
@@ -264,8 +266,11 @@ int main(int argc, char* argv[]) {
 
         struct timespec trueTm = get_true_time(sockfd);
 
-        printf("%ld %ld\n", trueTm.tv_sec, trueTm.tv_nsec);
+        fprintf(output, "%ld %ld\n", trueTm.tv_sec, trueTm.tv_nsec);
+        fflush(output);
     }
+
+    fclose(output);
 
     return 0;
 }
