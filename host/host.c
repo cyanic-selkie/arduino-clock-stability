@@ -46,9 +46,10 @@ int initialize_serial(const char* port) {
     memset(&tty, 0, sizeof tty);
 
     /* Error Handling */
-    if (tcgetattr(USB, &tty) != 0) {
-        printf("Error %d from tcgetattr: %s\n", errno, strerror(errno));
-    }
+    tcgetattr(USB, &tty);
+    /*if (tcgetattr(USB, &tty) != 0) {*/
+    /*printf("Error %d from tcgetattr: %s\n", errno, strerror(errno));*/
+    /*}*/
 
     /* Set Baud Rate */
     cfsetospeed(&tty, (speed_t)B9600);
@@ -70,9 +71,10 @@ int initialize_serial(const char* port) {
 
     /* Flush Port, then applies attributes */
     tcflush(USB, TCIFLUSH);
-    if (tcsetattr(USB, TCSANOW, &tty) != 0) {
-        printf("Error %d from tcsetattr\n", errno);
-    }
+    tcsetattr(USB, TCSANOW, &tty);
+    /*if (tcsetattr(USB, TCSANOW, &tty) != 0) {*/
+    /*printf("Error %d from tcsetattr\n", errno);*/
+    /*}*/
 
     return USB;
 }
@@ -118,13 +120,13 @@ int ntp_socket() {
     int sockfd =
         socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP); // Create a UDP socket.
 
-    if (sockfd < 0)
-        printf("ERROR opening socket");
+    /*if (sockfd < 0)*/
+    /*printf("ERROR opening socket");*/
 
     server = gethostbyname("pool.ntp.org"); // Convert URL to IP.
 
-    if (server == NULL)
-        printf("ERROR, no such host");
+    /*if (server == NULL)*/
+    /*printf("ERROR, no such host");*/
 
     // Zero out the server address structure.
     bzero((char*)&serv_addr, sizeof(serv_addr));
@@ -140,8 +142,10 @@ int ntp_socket() {
     serv_addr.sin_port = htons(123);
 
     // Call up the server using its IP address and port number.
-    if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
-        printf("ERROR connecting");
+    connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
+    /*if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) <
+     * 0)*/
+    /*printf("ERROR connecting");*/
 
     return sockfd;
 }
@@ -158,16 +162,18 @@ ntp_packet ntp_request(int sockfd) {
     // Represents 27 in base 10 or 00011011 in base 2.
 
     // Send it the NTP packet it wants. If n == -1, it failed.
-    int n = write(sockfd, (char*)&packet, sizeof(ntp_packet));
+    /*int n = */
+    write(sockfd, (char*)&packet, sizeof(ntp_packet));
 
-    if (n < 0)
-        printf("ERROR writing to socket");
+    /*if (n < 0)*/
+    /*printf("ERROR writing to socket");*/
 
     // Wait and receive the packet back from the server. If n == -1, it failed.
-    n = read(sockfd, (char*)&packet, sizeof(ntp_packet));
+    /*n = */
+    read(sockfd, (char*)&packet, sizeof(ntp_packet));
 
-    if (n < 0)
-        printf("ERROR reading from socket");
+    /*if (n < 0)*/
+    /*printf("ERROR reading from socket");*/
 
     return packet;
 }
