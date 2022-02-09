@@ -244,6 +244,7 @@ int main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("This program takes exactly one argument: the serial port to "
                "listen to.");
+        return 1;
     }
 
     // Connect to the socket for NTP requests
