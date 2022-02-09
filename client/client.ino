@@ -1,6 +1,6 @@
 // With the prescaler set to 128, and initial timer count set to 130, each tick
 // variable increment represents exactly 16000 ticks of the raw clock.
-extern uint32_t ticks = 0;
+uint32_t ticks = 0;
 
 ISR(TIMER2_OVF_vect){
     ++ticks;
@@ -27,4 +27,3 @@ void loop() {
         Serial.write(0);
     }
 }
-
